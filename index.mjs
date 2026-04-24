@@ -7,6 +7,10 @@ app.get('/', (req, res) => {
    res.render('home.ejs');
 });
 
+app.get('/signUp', (req, res) => {
+   res.render('signUp.ejs');
+});
+
 app.listen(3000, () => {
    console.log('server started');
 });
