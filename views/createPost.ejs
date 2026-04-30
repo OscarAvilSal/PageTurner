@@ -1,0 +1,24 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Post</title>
+    <%- include("partials/header.ejs") %>
+</head>
+<%- include("partials/navbar.ejs") %>
+<body>
+    <h1>Create a Post!</h1>
+    Book Title: <br>
+    <input type="text" id="postBookTitle"><br>
+
+    Rivew of the book:<br>
+    <textarea id="postBookReview"></textarea><br>
+
+
+    <button id="postButton">Post</button><br>
+
+    <%- include("partials/footer.ejs") %>
+</body>
+</html>

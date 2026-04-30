@@ -11,6 +11,10 @@ app.get('/signUp', (req, res) => {
    res.render('signUp.ejs');
 });
 
+app.get('/createPost', (req, res) => {
+   res.render('createPost.ejs');
+});
+
 app.listen(3000, () => {
    console.log('server started');
 });

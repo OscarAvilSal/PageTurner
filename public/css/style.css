@@ -1,6 +1,43 @@
-body{
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
     font-family: 'Times New Roman', Times, serif;
     background-color: rgb(234, 214, 178);
     text-align: center;
-    color: rgb(157, 134, 90)
+    color: rgb(157, 134, 90);
+}
+
+footer {
+    margin-top: auto;
+    padding: 20px 0;
+}
+
+footer img {
+    width: 100px;
+    height: auto;
+}
+
+#postBookReview {
+    width: 500px;
+    height: 200px;
+    padding: 10px;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 16px;
+}
+
+button{
+    box-shadow:inset 0px 1px 0px 0px #dcecfb;
+	background-color:#007bf7;
+	border-radius:6px;
+	border:1px solid #007bf7;
+	display:inline-block;
+	color:#ffffff;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #528ecc;
 }
