@@ -12,6 +12,12 @@
       <div class="navbar-nav">
         <a class="nav-link" href="#">Posts / Feed</a>
         <a class="nav-link" href="/createPost">Post Review</a>
+
+        <!-- Conditional Logout button -->
+         <% if(user) { %>
+          <a class="nav-link" href="/logout">Logout <%= user %></a>
+        <% } %>
+        <!-- else login -->
       </div>
     </div>
   </div>
