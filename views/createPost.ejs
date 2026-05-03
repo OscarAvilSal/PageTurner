@@ -10,14 +10,46 @@
 <%- include("partials/navbar.ejs") %>
 <body>
     <h1>Create a Post!</h1>
-    Book Title: <br>
-    <input type="text" id="postBookTitle"><br>
 
-    Rivew of the book:<br>
-    <textarea id="postBookReview"></textarea><br>
+    <!-- Search for book -->
+    <div id="searchSection">
+        <h4>Find your book:</h4>
+        <input type="text" id="searchBookInput" placeholder="Enter book title">
+        <button id="searchBookButton">Search Books</button>
+        <div id="searchBookMessage" style="display:none; color:red"></div>
+    </div>
 
+    <!-- Result section -->
+    <div id="resultsSection" style="display:none;">
+        <h4>Select your book:</h4>
+        <div id="resultsList" style="border: 1px solid #ccc; padding: 10px; max-height: 300px; overflow-y: auto;"></div>
+        <!-- section populated with JS -->
+    </div>
 
-    <button id="postButton">Post</button><br>
+    <!-- Confirm selection -->
+     <div id="selectedBookSection" style="display: none;">
+        <h4>Confirm Selection</h4>
+        <img id="selectedCoverImage" src="" alt="Book cover" style="max-width: 150px; height: auto; margin-right: 15px;">
+            <div id="selectedBookInfo" style="display: inline-block;">
+                <p><strong>Title:</strong> <span id="selectedTitle"></span></p>
+                <p><strong>Author:</strong> <span id="selectedAuthor"></span></p>
+                <p><strong>ISBN:</strong> <span id="selectedISBN"></span></p>
+            </div>
+     </div>
+
+    <!-- Review Section -->
+    div id="reviewSection" style="display:none;">
+        <h2>Write Your Review</h2>
+        <label for="postBookReview">Review of the book:</label><br>
+        <textarea id="postBookReview" placeholder="Share your thoughts about this book..."></textarea><br>
+        <button id="postButton" disabled>Post Review</button>
+    </div>
+
+    <!-- Hidden input fields to store selected book data -->
+    <input type="hidden" id="selectedBookTitle">
+    <input type="hidden" id="selectedBookAuthor">
+    <input type="hidden" id="selectedBookISBN">
+    <input type="hidden" id="selectedCoverURL">
 
     <%- include("partials/footer.ejs") %>
 </body>
