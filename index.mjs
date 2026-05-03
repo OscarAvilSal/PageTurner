@@ -135,6 +135,16 @@ app.post('/createUser', async (req, res) => {
    }
 });
 
+app.get('/explore', async (req, res) => {
+   let sql = `SELECT books.author, books.book_cover, books.book_review, books.created_at, books.description, books.title, books.isbn, books.userId, users.username 
+              FROM books 
+              INNER JOIN users ON users.id = books.userId
+              ORDER BY books.created_at DESC`;
+   const [rows] = await pool.query(sql);
+   
+   res.render('explore.ejs', { user: req.session.username || null , rows});
+});
+
 app.get('/logout', (req, res) => {
    req.session.destroy((err) => {
       if (err) {
