@@ -9,11 +9,11 @@ const searchButton = document.querySelector("#searchBookButton");
 const reviewTextarea = document.querySelector("#postBookReview");
 const postButton = document.querySelector("#postButton");
 
-// Event Listeners
-signUpForm.addEventListener("submit", createUser);
-searchButton.addEventListener("click", handleSearch);
-postButton.addEventListener("click", handleSubmitReview);
-reviewTextarea.addEventListener("input", validateSubmitButton);
+// Event Listeners (check if elements exist before attaching)
+if(signUpForm) signUpForm.addEventListener("submit", createUser);
+if(searchButton) searchButton.addEventListener("click", handleSearch);
+if(postButton) postButton.addEventListener("click", handleSubmitReview);
+if(reviewTextarea) reviewTextarea.addEventListener("input", validateSubmitButton);
 
 async function createUser(e){
     e.preventDefault();
@@ -160,7 +160,7 @@ function displayResults(books) {
         
         // Select book when user clicks result
         resultItem.addEventListener("click", () => {
-            selectBook(title, author, isbn, coverId);
+            selectBook(title, author, isbn, coverId, book.key);
         });
         
         resultsList.appendChild(resultItem);
@@ -171,7 +171,7 @@ function displayResults(books) {
 }
 
 // Select a book from results
-function selectBook(title, author, isbn, coverId) {
+function selectBook(title, author, isbn, coverId, workKey) {
     const coverUrl = coverId
     // use the image from api or the default image
         ? `https://covers.openlibrary.org/b/id/${coverId}-M.jpg`
@@ -182,6 +182,7 @@ function selectBook(title, author, isbn, coverId) {
     document.querySelector("#selectedBookAuthor").value = author;
     document.querySelector("#selectedBookISBN").value = isbn;
     document.querySelector("#selectedCoverURL").value = coverUrl;
+    document.querySelector("#selectedBookKey").value = workKey;
     
     // Display to user
     document.querySelector("#selectedTitle").textContent = title;
@@ -217,6 +218,7 @@ async function handleSubmitReview() {
     const author = document.querySelector("#selectedBookAuthor").value;
     const isbn = document.querySelector("#selectedBookISBN").value;
     const bookCoverUrl = document.querySelector("#selectedCoverURL").value;
+    const bookKey = document.querySelector("#selectedBookKey").value;
     
     if (!reviewText || !title) {
         alert("Please complete all fields");
@@ -234,7 +236,8 @@ async function handleSubmitReview() {
                 author: author,
                 isbn: isbn,
                 book_cover: bookCoverUrl,
-                book_review: reviewText
+                book_review: reviewText,
+                bookKey: bookKey
             })
         });
         

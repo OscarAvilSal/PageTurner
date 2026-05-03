@@ -1,6 +1,12 @@
-<%- include("partials/header.ejs") %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <%- include("partials/header.ejs") %>
+</head>
 <%- include("partials/navbar.ejs") %>
-
 <body>
     <h1>Sign Up</h1>
     <form id="signUpForm">
@@ -16,5 +22,7 @@
 
         <button type="submit" id="createUser">Sign Up</button>
     </form>
+
+    <%- include("partials/footer.ejs") %>
 </body>
 </html>

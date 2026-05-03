@@ -48,9 +48,52 @@ app.get('/signUp', (req, res) => {
    res.render('signUp.ejs', { user: req.session.username || null });
 });
 
+// TODO: replace with function after login page is complete
 // app.get('/createPost', isUserAuthenticated, (req, res) => {
    app.get('/createPost', (req, res) => {
    res.render('createPost.ejs', { user: req.session.username || null });
+});
+
+app.post('/savePost', async (req, res) => {
+   try{
+      // if user is not authenticated redirect to login
+      if(!req.session.userId){
+         return res.json({ success: false, error: "Not authenticated" });
+      }
+
+      let {title, author, isbn, book_cover, book_review, bookKey} = req.body;
+
+      // check for required inputs
+      if(!title || !author || !book_review){
+         console.log("Missing post requirements");
+         return;
+      }
+
+      const userId = req.session.userId;
+      let description =  "No description available";
+
+      // Fetch book description from OpenLibrary API
+      try{
+         let response = await fetch(`https://openlibrary.org${bookKey}.json`);
+         let data = await response.json();
+         if(data.description){
+            description = typeof data.description === 'string' 
+               ? data.description 
+               : data.description.value;
+         }
+      }catch (err){
+         console.log("Could not fetch description from OpenLibrary", err);
+      }
+
+      let sql = `INSERT INTO books (title, author, isbn, description, book_cover, book_review, created_at, userId)
+                 VALUES (?, ?, ?, ?, ?, ?, NOW(), ?)`;
+      
+      await pool.query(sql, [title, author, isbn, description, book_cover, book_review, userId]);
+      res.json({success: true});
+   }catch (err) {
+      console.log("Error saving post", err);
+      res.json({success: false});
+   }
 });
 
 app.listen(3000, () => {
