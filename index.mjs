@@ -48,7 +48,8 @@ app.get('/signUp', (req, res) => {
    res.render('signUp.ejs', { user: req.session.username || null });
 });
 
-app.get('/createPost', isUserAuthenticated, (req, res) => {
+// app.get('/createPost', isUserAuthenticated, (req, res) => {
+   app.get('/createPost', (req, res) => {
    res.render('createPost.ejs', { user: req.session.username || null });
 });
 
