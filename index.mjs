@@ -49,8 +49,7 @@ app.get('/signUp', (req, res) => {
 });
 
 // TODO: replace with function after login page is complete
-// app.get('/createPost', isUserAuthenticated, (req, res) => {
-   app.get('/createPost', (req, res) => {
+app.get('/createPost', isUserAuthenticated, (req, res) => {
    res.render('createPost.ejs', { user: req.session.username || null });
 });
 

@@ -10,6 +10,20 @@
 <body>
     <h1>Explore Page</h1>
     
+    <% for (let i of rows) { %>
+        <div class="explorePostSection">
+            <h4><%=i.username%> Reviewed: <%=i.title%> by: <%=i.author%></h4>
+            <div class="reviewSection">
+                <img src="<%=i.book_cover%>">
+                <%=i.book_review%>
+            </div>
+
+            <details>
+                <summary>View Book Description</summary>
+                <p><%= i.description %></p>
+            </details>
+        </div>    
+    <% } %> 
 
     <%- include("partials/footer.ejs") %>
 </body>
