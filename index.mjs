@@ -154,3 +154,12 @@ app.get("/dbTest", async (req, res) => {
       res.status(500).send("Database error!");
    }
 });//dbTest
+
+
+// temp debug route to auto login
+app.get('/testLogin', (req, res) => {
+   req.session.authenticated = true;
+   req.session.userId = 1; // or any user ID that exists in your DB
+   req.session.username = 'testuser';
+   res.redirect('/createPost');
+});
