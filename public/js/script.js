@@ -8,15 +8,15 @@ const searchInput = document.querySelector("#searchBookInput");
 const searchButton = document.querySelector("#searchBookButton");
 const reviewTextarea = document.querySelector("#postBookReview");
 const postButton = document.querySelector("#postButton");
+const reviewForm = document.querySelector("#reviewForm"); 
 
 // Event Listeners (check if elements exist before attaching)
 if(signUpForm) signUpForm.addEventListener("submit", createUser);
 if(searchButton) searchButton.addEventListener("click", handleSearch);
-if(postButton) postButton.addEventListener("click", handleSubmitReview);
+if(reviewForm) reviewForm.addEventListener("submit", handleSubmitReview);
 if(reviewTextarea) reviewTextarea.addEventListener("input", validateSubmitButton);
 
-async function createUser(e){
-    e.preventDefault();
+async function createUser(){
     let alert = document.querySelector("#signUpAlert");
     alert.style.display = "none";
     alert.style.color = "red";
@@ -56,7 +56,7 @@ async function createUser(e){
         console.error(err);
     }
 
-    //Input is validated -> create user
+    //Input is validated, create thes user
     try{
         const response = await fetch('/createUser', {method: 'POST', 
             headers: { 'Content-Type': 'application/json'},
