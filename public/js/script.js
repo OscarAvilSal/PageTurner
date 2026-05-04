@@ -16,7 +16,8 @@ if(searchButton) searchButton.addEventListener("click", handleSearch);
 if(reviewForm) reviewForm.addEventListener("submit", handleSubmitReview);
 if(reviewTextarea) reviewTextarea.addEventListener("input", validateSubmitButton);
 
-async function createUser(){
+async function createUser(e){
+    e.preventDefault(); 
     let alert = document.querySelector("#signUpAlert");
     alert.style.display = "none";
     alert.style.color = "red";
@@ -212,7 +213,12 @@ function validateSubmitButton() {
 }
 
 // Submit review to backend
-async function handleSubmitReview() {
+async function handleSubmitReview(e) {
+    e.preventDefault();
+
+    const postButton = document.querySelector("#postButton");
+    postButton.disabled = true;  // Disable button immediately
+
     const reviewText = document.querySelector("#postBookReview").value.trim();
     const title = document.querySelector("#selectedBookTitle").value;
     const author = document.querySelector("#selectedBookAuthor").value;
@@ -245,7 +251,7 @@ async function handleSubmitReview() {
         
         if (result.success) {
             console.log("Review posted successfully!");
-            window.location.href = "/";
+            window.location.href = "/explore";
         } else {
             alert("Error posting review: " + (result.error || "Unknown error"));
         }

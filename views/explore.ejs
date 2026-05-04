@@ -8,11 +8,11 @@
 </head>
 <%- include("partials/navbar.ejs") %>
 <body>
-    <h1>Explore Page</h1>
+    <h1>Explore Page</h1> <%= user %> 
     
     <% for (let i of rows) { %>
         <div class="explorePostSection">
-            <h4><%=i.username%> Reviewed: <%=i.title%> by: <%=i.author%></h4>
+            <h4><%=i.username%> reviewed: <%=i.title%> by: <%=i.author%></h4>
             <div class="reviewSection">
                 <img src="<%=i.book_cover%>">
                 <%=i.book_review%>
@@ -22,6 +22,18 @@
                 <summary>View Book Description</summary>
                 <p><%= i.description %></p>
             </details>
+            <% if (i.username === user){ %>
+                <details style="display: inline;">
+                    <summary>Edit Review</summary>
+                    <form class="editReviewForm">
+                        <input type="text" id="editReviewInput" placeholder="Edit Review">
+                        <input type="text" id="editAuthorInput" placeholder="Edit Author" value="<%=i.author%>">
+                        <input type="text" id="editIsbnInput" placeholder="Edit ISBN" value="<%=i.isbn%>">
+                        <button type="submit">Save Changes</button>
+                        <input type="hidden" class="bookId" value="<%=i.id%>">
+                    </form>
+                </details>
+            <% } %>
         </div>    
     <% } %> 
 
