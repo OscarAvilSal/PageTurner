@@ -53,8 +53,7 @@ app.get('/logIn', (req, res) => {
 });
 
 // TODO: replace with function after login page is complete
-// app.get('/createPost', isUserAuthenticated, (req, res) => {
-   app.get('/createPost', (req, res) => {
+app.get('/createPost', isUserAuthenticated, (req, res) => {
    res.render('createPost.ejs', { user: req.session.username || null });
 });
 
@@ -139,6 +138,16 @@ app.post('/createUser', async (req, res) => {
    }
 });
 
+app.get('/explore', async (req, res) => {
+   let sql = `SELECT books.id, books.author, books.book_cover, books.book_review, books.created_at, books.description, books.title, books.isbn, books.userId, users.username 
+              FROM books 
+              INNER JOIN users ON users.id = books.userId
+              ORDER BY books.created_at DESC`;
+   const [rows] = await pool.query(sql);
+   
+   res.render('explore.ejs', { user: req.session.username || null , rows});
+});
+
 app.get('/logout', (req, res) => {
    req.session.destroy((err) => {
       if (err) {
@@ -163,7 +172,7 @@ app.get("/dbTest", async (req, res) => {
 // temp debug route to auto login
 app.get('/testLogin', (req, res) => {
    req.session.authenticated = true;
-   req.session.userId = 1; // or any user ID that exists in your DB
-   req.session.username = 'testuser';
+   req.session.userId = 11; // or any user ID that exists in your DB
+   req.session.username = 'JustinA';
    res.redirect('/createPost');
 });

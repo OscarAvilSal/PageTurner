@@ -8,15 +8,16 @@ const searchInput = document.querySelector("#searchBookInput");
 const searchButton = document.querySelector("#searchBookButton");
 const reviewTextarea = document.querySelector("#postBookReview");
 const postButton = document.querySelector("#postButton");
+const reviewForm = document.querySelector("#reviewForm"); 
 
 // Event Listeners (check if elements exist before attaching)
 if(signUpForm) signUpForm.addEventListener("submit", createUser);
 if(searchButton) searchButton.addEventListener("click", handleSearch);
-if(postButton) postButton.addEventListener("click", handleSubmitReview);
+if(reviewForm) reviewForm.addEventListener("submit", handleSubmitReview);
 if(reviewTextarea) reviewTextarea.addEventListener("input", validateSubmitButton);
 
 async function createUser(e){
-    e.preventDefault();
+    e.preventDefault(); 
     let alert = document.querySelector("#signUpAlert");
     alert.style.display = "none";
     alert.style.color = "red";
@@ -56,7 +57,7 @@ async function createUser(e){
         console.error(err);
     }
 
-    //Input is validated -> create user
+    //Input is validated, create thes user
     try{
         const response = await fetch('/createUser', {method: 'POST', 
             headers: { 'Content-Type': 'application/json'},
@@ -212,7 +213,12 @@ function validateSubmitButton() {
 }
 
 // Submit review to backend
-async function handleSubmitReview() {
+async function handleSubmitReview(e) {
+    e.preventDefault();
+
+    const postButton = document.querySelector("#postButton");
+    postButton.disabled = true;  // Disable button immediately
+
     const reviewText = document.querySelector("#postBookReview").value.trim();
     const title = document.querySelector("#selectedBookTitle").value;
     const author = document.querySelector("#selectedBookAuthor").value;
@@ -245,7 +251,7 @@ async function handleSubmitReview() {
         
         if (result.success) {
             console.log("Review posted successfully!");
-            window.location.href = "/";
+            window.location.href = "/explore";
         } else {
             alert("Error posting review: " + (result.error || "Unknown error"));
         }

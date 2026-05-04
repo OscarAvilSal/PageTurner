@@ -40,9 +40,11 @@
     <!-- Review Section -->
     <div id="reviewSection" style="display:none;">
         <h2>Write Your Review</h2>
-        <label for="postBookReview">Review of the book:</label><br>
-        <textarea id="postBookReview" placeholder="Share your thoughts about this book..."></textarea><br>
-        <button id="postButton" disabled>Post Review</button>
+        <form id="reviewForm">
+            <label for="postBookReview">Review of the book:</label><br>
+            <textarea id="postBookReview" placeholder="Share your thoughts about this book..."></textarea><br>
+            <button id="postButton" disabled>Post Review</button>
+        </form>
     </div>
 
     <!-- Hidden input fields to store selected book data to send to backend-->
