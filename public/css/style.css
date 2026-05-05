@@ -38,6 +38,8 @@ footer img {
     padding: 10px;
     font-family: 'Times New Roman', Times, serif;
     font-size: 16px;
+    color: rgba(189, 171, 135, 0.933);
+    text-shadow: 1px 1px 2px rgba(48, 47, 47, 0.756);
 }
 
 button{
@@ -61,6 +63,8 @@ button{
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
+    color: rgba(189, 171, 135, 0.933);
+    text-shadow: 1px 1px 2px rgba(48, 47, 47, 0.756);
 }
 
 
@@ -69,6 +73,8 @@ button{
     align-items: flex-start; 
     gap: 20px;           
     margin-bottom: 15px;
+    color: rgba(189, 171, 135, 0.933);
+    text-shadow: 1px 1px 2px rgba(48, 47, 47, 0.664);
 }
 
 .container{
