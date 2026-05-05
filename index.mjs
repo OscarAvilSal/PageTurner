@@ -32,20 +32,35 @@ app.use(session({
    }
 }));
 
-function isUserAuthenticated(req, res, next){
-    if(req.session.authenticated){
-        next();
-    }else{
-        res.redirect("/");//change to login page once created
-    }
+function isUserAuthenticated(req, res, next) {
+   if (req.session.authenticated) {
+      next();
+   } else {
+      res.redirect("/");//change to login page once created
+   }
 }
 
-app.get('/', (req, res) => {
-   res.render('home.ejs', { user: req.session.username || null });
+app.get('/', async (req, res) => {
+   try {
+      let sql = `SELECT books.title, books.author, books.book_cover
+                 FROM books 
+                 INNER JOIN users ON users.id = books.userId
+                 ORDER BY RAND()
+                 LIMIT 10`;
+      const [rows] = await pool.query(sql);
+      res.render('home.ejs', { user: req.session.username || null, rows });
+   } catch (err) {
+      console.error(err);
+      res.send("Database error: " + err.message);
+   }
 });
 
 app.get('/signUp', (req, res) => {
    res.render('signUp.ejs', { user: req.session.username || null });
+});
+
+app.get('/login', (req, res) => {
+   res.render('logIn.ejs', { user: req.session.username || null });
 });
 
 
@@ -54,44 +69,44 @@ app.get('/createPost', isUserAuthenticated, (req, res) => {
 });
 
 app.post('/savePost', async (req, res) => {
-   try{
+   try {
       // if user is not authenticated redirect to login
-      if(!req.session.userId){
+      if (!req.session.userId) {
          return res.json({ success: false, error: "Not authenticated" });
       }
 
-      let {title, author, isbn, book_cover, book_review, bookKey} = req.body;
+      let { title, author, isbn, book_cover, book_review, bookKey } = req.body;
 
       // check for required inputs
-      if(!title || !author || !book_review){
+      if (!title || !author || !book_review) {
          console.log("Missing post requirements");
          return;
       }
 
       const userId = req.session.userId;
-      let description =  "No description available";
+      let description = "No description available";
 
       // Fetch book description from OpenLibrary API
-      try{
+      try {
          let response = await fetch(`https://openlibrary.org${bookKey}.json`);
          let data = await response.json();
-         if(data.description){
-            description = typeof data.description === 'string' 
-               ? data.description 
+         if (data.description) {
+            description = typeof data.description === 'string'
+               ? data.description
                : data.description.value;
          }
-      }catch (err){
+      } catch (err) {
          console.log("Could not fetch description from OpenLibrary", err);
       }
 
       let sql = `INSERT INTO books (title, author, isbn, description, book_cover, book_review, created_at, userId)
                  VALUES (?, ?, ?, ?, ?, ?, NOW(), ?)`;
-      
+
       await pool.query(sql, [title, author, isbn, description, book_cover, book_review, userId]);
-      res.json({success: true});
-   }catch (err) {
+      res.json({ success: true });
+   } catch (err) {
       console.log("Error saving post", err);
-      res.json({success: false});
+      res.json({ success: false });
    }
 });
 
@@ -140,8 +155,8 @@ app.get('/explore', async (req, res) => {
               INNER JOIN users ON users.id = books.userId
               ORDER BY books.created_at DESC`;
    const [rows] = await pool.query(sql);
-   
-   res.render('explore.ejs', { user: req.session.username || null , rows});
+
+   res.render('explore.ejs', { user: req.session.username || null, rows });
 });
 
 app.get('/logout', (req, res) => {
@@ -176,7 +191,7 @@ app.post('/updatePost', async (req, res) => {
 
       // Insert user into database
       let sql = `UPDATE books SET author = ?, book_review = ?, isbn = ? WHERE id = ? AND userId = ? `;
-      await pool.query(sql, [author, book_review, isbn, id, req.session.userId]);      
+      await pool.query(sql, [author, book_review, isbn, id, req.session.userId]);
 
       res.json({ success: true });
    } catch (err) {
@@ -193,4 +208,35 @@ app.get('/testLogin', (req, res) => {
    req.session.userId = 12; // or any user ID that exists in your DB
    req.session.username = 'monte';
    res.redirect('/createPost');
+});
+
+app.post('/login', async (req, res) => {
+    try {
+        let { username, password } = req.body;
+
+        let sql = `SELECT * FROM users WHERE username = ?`;
+        let [rows] = await pool.query(sql, [username]);
+
+        if (rows.length === 0) {
+            return res.json({ success: false, error: "Invalid username or password" });
+        }
+
+        const user = rows[0];
+
+        const match = await bcrypt.compare(password, user.password_hash);
+
+        if (!match) {
+            return res.json({ success: false, error: "Invalid username or password" });
+        }
+
+        req.session.authenticated = true;
+        req.session.userId = user.id;
+        req.session.username = user.username;
+
+        res.json({ success: true });
+
+    } catch (err) {
+        console.error("Login error:", err);
+        res.status(500).json({ success: false, error: err.message });
+    }
 });

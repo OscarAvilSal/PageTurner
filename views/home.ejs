@@ -17,8 +17,21 @@
         earn badges depending on the amount of books you've read. We have a great friend's system that lets you see other user's library, favorites, 
         or books you both have in common. 
     </h3>
-    <h3 class="sectext">Now that you know what we are about</h3>
-    <h3 class="ocean-wave">Here are some great books to start with:</h3>
+    <h3 class="container">Now that you know what we are about</h3>
+    
+    <div class="ocean-wave">
+        <h3 class="wave-heading">Here are some great books to start with:</h3>
+            <div class="booksRow">
+                <% for (let book of rows) { %>    
+                    <div class="bookCov">
+                        <img src="<%= book.book_cover %>" alt="<%= book.title %>">
+                        <p class="bookTitle"><%= book.title %></p>
+                        <p class="bookAut">by <%= book.author %></p>
+                    </div>
+                <% } %>
+            </div>
+    </div>
+
 
     <%- include("partials/footer.ejs") %>
 </body>
