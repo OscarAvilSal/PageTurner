@@ -190,7 +190,7 @@ app.post('/updatePost', async (req, res) => {
 // temp debug route to auto login
 app.get('/testLogin', (req, res) => {
    req.session.authenticated = true;
-   req.session.userId = 11; // or any user ID that exists in your DB
-   req.session.username = 'JustinA';
+   req.session.userId = 12; // or any user ID that exists in your DB
+   req.session.username = 'mote';
    res.redirect('/createPost');
 });
