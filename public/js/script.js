@@ -9,12 +9,18 @@ const searchButton = document.querySelector("#searchBookButton");
 const reviewTextarea = document.querySelector("#postBookReview");
 const postButton = document.querySelector("#postButton");
 const reviewForm = document.querySelector("#reviewForm"); 
+const editForms = document.querySelectorAll(".editReviewForm"); //all edit forms
 
 // Event Listeners (check if elements exist before attaching)
 if(signUpForm) signUpForm.addEventListener("submit", createUser);
 if(searchButton) searchButton.addEventListener("click", handleSearch);
 if(reviewForm) reviewForm.addEventListener("submit", handleSubmitReview);
 if(reviewTextarea) reviewTextarea.addEventListener("input", validateSubmitButton);
+
+//logic to add an event listener to all edit forms
+editForms.forEach(form => {
+    form.addEventListener('submit', handleEditReview);
+})
 
 async function createUser(e){
     e.preventDefault(); 
@@ -259,5 +265,40 @@ async function handleSubmitReview(e) {
     } catch (error) {
         console.error("Submit error:", error);
         alert("Error posting review. Try again.");
+    }
+}
+
+async function handleEditReview(e){
+    e.preventDefault();
+
+    const form = e.target;
+    const bookId = form.querySelector('.bookId').value;
+    const author = form.querySelector('#editAuthorInput').value;
+    const isbn = form.querySelector('#editIsbnInput').value;
+    const review = form.querySelector('#editReviewInput').value;
+
+    try {
+        const response = await fetch('/updatePost', { method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: bookId,
+                author: author,
+                isbn: isbn,
+                book_review: review
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            window.location.reload(); // Refresh to see changes
+        } else {
+            alert('Error updating review: ' + (result.error || 'Unknown error'));
+        }
+    } catch (error) {
+        console.error('Update error:', error);
+        alert('Error updating review. Try again.');
     }
 }
