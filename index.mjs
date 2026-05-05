@@ -59,7 +59,7 @@ app.get('/signUp', (req, res) => {
    res.render('signUp.ejs', { user: req.session.username || null });
 });
 
-app.get('/logIn', (req, res) => {
+app.get('/login', (req, res) => {
    res.render('logIn.ejs', { user: req.session.username || null });
 });
 
@@ -208,4 +208,35 @@ app.get('/testLogin', (req, res) => {
    req.session.userId = 11; // or any user ID that exists in your DB
    req.session.username = 'JustinA';
    res.redirect('/createPost');
+});
+
+app.post('/login', async (req, res) => {
+    try {
+        let { username, password } = req.body;
+
+        let sql = `SELECT * FROM users WHERE username = ?`;
+        let [rows] = await pool.query(sql, [username]);
+
+        if (rows.length === 0) {
+            return res.json({ success: false, error: "Invalid username or password" });
+        }
+
+        const user = rows[0];
+
+        const match = await bcrypt.compare(password, user.password_hash);
+
+        if (!match) {
+            return res.json({ success: false, error: "Invalid username or password" });
+        }
+
+        req.session.authenticated = true;
+        req.session.userId = user.id;
+        req.session.username = user.username;
+
+        res.json({ success: true });
+
+    } catch (err) {
+        console.error("Login error:", err);
+        res.status(500).json({ success: false, error: err.message });
+    }
 });
