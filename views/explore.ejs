@@ -28,7 +28,7 @@
                     <form class="editReviewForm">
                         Edit Author<input type="text" id="editAuthorInput" placeholder="Edit Author" value="<%=i.author%>">
                         Edit ISBN:<input type="text" id="editIsbnInput" placeholder="Edit ISBN" value="<%=i.isbn%>">
-                        <br>Edit Review:<br><textarea id="editReviewInput" placeholder="Edit Review"></textarea><br>
+                        <br>Edit Review:<br><textarea id="editReviewInput" ><%=i.book_review%></textarea><br>
                         <button type="submit">Save Changes</button>
                         <input type="hidden" class="bookId" value="<%=i.id%>">
                     </form>

@@ -165,6 +165,28 @@ app.get("/dbTest", async (req, res) => {
 });//dbTest
 
 
+//update post route
+app.post('/updatePost', async (req, res) => {
+   try {
+
+      let id = req.body.id;
+      let author = req.body.author;
+      let isbn = req.body.isbn;
+      let book_review = req.body.book_review;
+
+      // Insert user into database
+      let sql = `UPDATE books SET author = ?, book_review = ?, isbn = ? WHERE id = ? AND userId = ? `;
+      await pool.query(sql, [author, book_review, isbn, id, req.session.userId]);      
+
+      res.json({ success: true });
+   } catch (err) {
+      console.error("Error updating post:", err);
+      res.status(500).json({ success: false, error: err.message });
+   }
+});
+
+
+
 // temp debug route to auto login
 app.get('/testLogin', (req, res) => {
    req.session.authenticated = true;
