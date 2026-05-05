@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +8,22 @@
     <%- include("partials/header.ejs") %>
 </head>
 <%- include("partials/navbar.ejs") %>
-<body>
-    
-<%- include("partials/footer.ejs") %>
-</body>
+
+    <body>
+        <div>
+            <form id="logInForm">
+                Username:<input type="text" id="logInUsername"><br>
+
+                Email:<input type="text" id="logInEmail"><br>
+
+                Password:<input type="password" id="logInPassword"><br>
+
+                <button type="submit" id="checkUser">Log In</button>
+            </form>
+            <p>Don't have an account? <a href="/signUp">Sign Up</a></p>
+        </div>
+
+        <%- include("partials/footer.ejs") %>
+    </body>
+
 </html>
