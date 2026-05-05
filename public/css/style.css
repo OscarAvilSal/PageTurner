@@ -13,11 +13,12 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    margin: 0;
 }
 
 footer {
     display: block;
-    margin-top: auto;
+    margin-top: 0;
     padding: 20px 0;
     background-color: #2E86C1;
     color:rgb(215, 189, 140);
@@ -71,28 +72,66 @@ button{
 }
 
 .container{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    text-align: center;
     font-size: 25px;
 }
 
 #contO{
     font-weight: bold;
-}
-
-.sectext{
-    grid-template-columns: 1fr 1fr;
-    font-size: 25px;
+    margin-top: 1%;
 }
 
 .ocean-wave {
     background-color: #2E86C1;
     min-height: 50vh;
     padding-top: 100px;
-    color:rgb(215, 189, 140);
-    
-    clip-path: polygon(0 15%, 25% 5%, 50% 15%, 75% 5%, 100% 15%, 100% 100%, 0% 100%);
-    
+    color:rgb(215, 189, 140);  
+    clip-path: polygon(0 15%, 25% 5%, 50% 15%, 75% 5%, 100% 15%, 100% 100%, 0% 100%);   
     margin-top: -50px;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.wave-heading {
+    background-color: #2E86C1;
+    color: rgb(215, 189, 140);
+    padding: 10px 20px;
+    margin: 0;
+    font-size: 25px;
+}
+
+.booksRow {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    padding: 20px;
+    background-color: #2E86C1;
+}
+
+.bookCov {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.bookCov img {
+    width: 100%;
+    max-width: 120px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.bookTitle {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 8px 0 2px;
+    color: rgb(215, 189, 140);
+}
+
+.bookAut {
+    font-size: 12px;
+    color: rgb(215, 189, 140);
+    margin: 0;
 }

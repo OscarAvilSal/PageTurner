@@ -40,8 +40,19 @@ function isUserAuthenticated(req, res, next){
     }
 }
 
-app.get('/', (req, res) => {
-   res.render('home.ejs', { user: req.session.username || null });
+app.get('/', async (req, res) => {
+   try {
+      let sql = `SELECT books.title, books.author, books.book_cover
+                 FROM books 
+                 INNER JOIN users ON users.id = books.userId
+                 ORDER BY RAND()
+                 LIMIT 10`;
+      const [rows] = await pool.query(sql);
+      res.render('home.ejs', { user: req.session.username || null, rows });
+   } catch (err) {
+      console.error(err);
+      res.send("Database error: " + err.message);
+   }
 });
 
 app.get('/signUp', (req, res) => {
