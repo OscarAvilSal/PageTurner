@@ -42,9 +42,8 @@ function isUserAuthenticated(req, res, next) {
 
 app.get('/', async (req, res) => {
    try {
-      let sql = `SELECT books.title, books.author, books.book_cover
-                 FROM books 
-                 INNER JOIN users ON users.id = books.userId
+      let sql = `SELECT books2.title, books2.author, books2.book_cover
+                 FROM books2
                  ORDER BY RAND()
                  LIMIT 10`;
       const [rows] = await pool.query(sql);
