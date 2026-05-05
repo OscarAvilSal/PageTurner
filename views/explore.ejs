@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,36 +8,62 @@
     <%- include("partials/header.ejs") %>
 </head>
 <%- include("partials/navbar.ejs") %>
-<body>
-    <h1>Explore Page</h1>
-    
-    <% for (let i of rows) { %>
-        <div class="explorePostSection">
-            <h4><%=i.username%> reviewed: <%=i.title%> by: <%=i.author%></h4>
-            <div class="reviewSection">
-                <img src="<%=i.book_cover%>">
-                <%=i.book_review%>
+
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+
+                <!-- left blue bar -->
+                <div class="col-lg-2 d-none d-lg-block"></div>
+
+                <!-- beige column -->
+                <div class="col-12 col-lg-8"
+                    style="background-color: rgb(234, 214, 178); min-height: 100vh; padding: 0;">
+
+                    <h1>Explore Page</h1>
+
+                    <% for (let i of rows) { %>
+                        <div class="explorePostSection">
+                            <h4>
+                                <%=i.username%> reviewed: <%=i.title%> by: <%=i.author%>
+                            </h4>
+                            <div class="reviewSection">
+                                <img src="<%=i.book_cover%>">
+                                <%=i.book_review%>
+                            </div>
+
+                            <details>
+                                <summary>View Book Description</summary>
+                                <p>
+                                    <%= i.description %>
+                                </p>
+                            </details>
+                            <% if (i.username===user){ %>
+                                <details style="display: inline;">
+                                    <summary>Edit Review</summary>
+                                    <form class="editReviewForm">
+                                        Edit Author<input type="text" id="editAuthorInput" placeholder="Edit Author"
+                                            value="<%=i.author%>">
+                                        Edit ISBN:<input type="text" id="editIsbnInput" placeholder="Edit ISBN"
+                                            value="<%=i.isbn%>">
+                                        <br>Edit Review:<br><textarea
+                                            id="editReviewInput"><%=i.book_review%></textarea><br>
+                                        <button type="submit">Save Changes</button>
+                                        <input type="hidden" class="bookId" value="<%=i.id%>">
+                                    </form>
+                                </details>
+                                <% } %>
+                        </div>
+                        <% } %>
+
+                </div>
+                <!-- right blue bar -->
+                <div class="col-lg-2 d-none d-lg-block"></div>
+
             </div>
+        </div>
 
-            <details>
-                <summary>View Book Description</summary>
-                <p><%= i.description %></p>
-            </details>
-            <% if (i.username === user){ %>
-                <details style="display: inline;">
-                    <summary>Edit Review</summary>
-                    <form class="editReviewForm">
-                        Edit Author<input type="text" id="editAuthorInput" placeholder="Edit Author" value="<%=i.author%>">
-                        Edit ISBN:<input type="text" id="editIsbnInput" placeholder="Edit ISBN" value="<%=i.isbn%>">
-                        <br>Edit Review:<br><textarea id="editReviewInput" ><%=i.book_review%></textarea><br>
-                        <button type="submit">Save Changes</button>
-                        <input type="hidden" class="bookId" value="<%=i.id%>">
-                    </form>
-                </details>
-            <% } %>
-        </div>    
-    <% } %> 
+        <%- include("partials/footer.ejs") %>
+    </body>
 
-    <%- include("partials/footer.ejs") %>
-</body>
 </html>

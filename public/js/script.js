@@ -302,3 +302,36 @@ async function handleEditReview(e){
         alert('Error updating review. Try again.');
     }
 }
+
+const loginForm = document.querySelector("#loginForm");
+if (loginForm) loginForm.addEventListener("submit", handleLogin);
+
+async function handleLogin(e) {
+    e.preventDefault();
+
+    const username = document.querySelector("#loginUsername").value;
+    const password = document.querySelector("#loginPassword").value;
+    const alert = document.querySelector("#loginAlert");
+    alert.style.display = "none";
+
+    try {
+        const response = await fetch('/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            window.location.href = '/'; // redirect home
+        } else {
+            alert.style.display = "inline";
+            alert.textContent = data.error || "Login failed. Try again.";
+        }
+    } catch (err) {
+        alert.style.display = "inline";
+        alert.textContent = "Error logging in. Try again.";
+        console.error(err);
+    }
+}
