@@ -36,7 +36,7 @@ function isUserAuthenticated(req, res, next) {
    if (req.session.authenticated) {
       next();
    } else {
-      res.redirect("/");//change to login page once created
+      res.redirect("/login");//change to login page once created
    }
 }
 
@@ -62,7 +62,7 @@ app.get('/login', (req, res) => {
    res.render('logIn.ejs', { user: req.session.username || null });
 });
 
-// TODO: replace with function after login page is complete
+
 app.get('/createPost', isUserAuthenticated, (req, res) => {
    res.render('createPost.ejs', { user: req.session.username || null });
 });
@@ -204,8 +204,8 @@ app.post('/updatePost', async (req, res) => {
 // temp debug route to auto login
 app.get('/testLogin', (req, res) => {
    req.session.authenticated = true;
-   req.session.userId = 11; // or any user ID that exists in your DB
-   req.session.username = 'JustinA';
+   req.session.userId = 12; // or any user ID that exists in your DB
+   req.session.username = 'monte';
    res.redirect('/createPost');
 });
 
